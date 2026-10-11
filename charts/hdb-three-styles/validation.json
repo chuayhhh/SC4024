@@ -1,0 +1,11 @@
+{
+  "source_csv": "byte-identical",
+  "all_record_mix_total": 242259,
+  "full_year_count": 25084,
+  "html_javascript": "passed",
+  "offline_chart_renders": 9,
+  "replay": "passed",
+  "mobile_overflow": "none",
+  "reduced_motion": "passed",
+  "browser_errors": []
+}

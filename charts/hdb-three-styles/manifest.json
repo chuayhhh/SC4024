@@ -1,0 +1,47 @@
+[
+  {
+    "family": "editorial",
+    "file": "01-market-rhythm.html",
+    "fn": "barcode"
+  },
+  {
+    "family": "editorial",
+    "file": "02-town-lease.html",
+    "fn": "arcs"
+  },
+  {
+    "family": "editorial",
+    "file": "03-lease-mix.html",
+    "fn": "almanac"
+  },
+  {
+    "family": "basics",
+    "file": "01-lease-value.html",
+    "fn": "rows"
+  },
+  {
+    "family": "basics",
+    "file": "02-town-scatter.html",
+    "fn": "scatter"
+  },
+  {
+    "family": "basics",
+    "file": "03-type-growth.html",
+    "fn": "pairs"
+  },
+  {
+    "family": "glance",
+    "file": "01-lease-value.html",
+    "fn": "chunky"
+  },
+  {
+    "family": "glance",
+    "file": "02-town-gap.html",
+    "fn": "gaps"
+  },
+  {
+    "family": "glance",
+    "file": "03-million-dollar.html",
+    "fn": "waffle"
+  }
+]
