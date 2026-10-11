@@ -1,1 +1,2 @@
-# sc4024
+# practice
+data visualization demo
