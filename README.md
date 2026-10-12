@@ -61,9 +61,9 @@ python3 -m venv venv
 # macOS / Linux:
 source venv/bin/activate
 # Windows (Command Prompt):
-# venv\Scripts\activate
+venv\Scripts\activate
 # Windows (PowerShell):
-# venv\Scripts\Activate.ps1
+venv\Scripts\Activate.ps1
 ```
 
 ### 2. Install Dependencies
@@ -81,9 +81,10 @@ pip install streamlit plotly pandas "numpy<2.0.0" statsmodels requests geopy
 streamlit run app.py
 
 The application will launch automatically in your browser at `http://localhost:8501`.
+```
 
 ---
-```
+
 
 ## 📖 Dashboard User Guide & Interpretive Framework
 
@@ -106,7 +107,8 @@ The dashboard is structured into **5 Analytical Tabs**, accompanied by a **Sideb
 * **Objective:** Map spatial valuation trends across the island.
 * **Visual Encoding:**
   * **Latitude / Longitude:** Flat physical location.
-  * **Color Scale (Viridis):** Price per Square Meter (SGD $/sqm). Dark purple indicates affordable suburban flats (~$3,000/sqm); bright yellow highlights high-value central flats (~$10,000+/sqm).
+  * **Color Scale (Viridis):** Price per Square Meter (SGD $/sqm). Dark purple indicates affordable suburban flats (~$3,000/sqm); 
+  Bright yellow highlights high-value central flats (~$10,000+/sqm).
   * **Bubble Size:** Floor area in square meters.
 * **How to Read & Interact:**
   * Zoom and pan across specific neighborhoods (e.g., Central Area vs. Woodlands).
