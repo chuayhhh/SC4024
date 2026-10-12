@@ -214,6 +214,17 @@ The spatial feature pipeline generates geocodes and distance measurements using 
 
 ---
 
+### ⚠️ Troubleshooting Common Setup Issues
+
+* **`ValueError: numpy.dtype size changed...`**  
+  This indicates a C-extension binary conflict between NumPy 2.x and Pandas/Statsmodels.  
+  **Fix:** Ensure your virtual environment is active (`source venv/bin/activate`), then run:
+```bash
+  pip install "numpy<2.0.0" --force-reinstall
+```
+
+---
+
 ## 🎓 Academic Rubric Alignment (NTU SC4024)
 
 | Grading Criteria | Applied Implementation |
