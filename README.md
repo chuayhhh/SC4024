@@ -40,6 +40,7 @@ SC4024/
     └── visual_components.py        # Standardized Dark-Theme Plotly Visual Components
 └── archive_notebooks/              # Old Project Reference
     └── old_project.ipynb           # Old project .ipynb file
+```
 
 ## ⚡ Quickstart & Local Installation Guide
 
@@ -63,6 +64,7 @@ source venv/bin/activate
 # venv\Scripts\activate
 # Windows (PowerShell):
 # venv\Scripts\Activate.ps1
+```
 
 ### 2. Install Dependencies
 
@@ -71,6 +73,7 @@ Install the pinned requirements to prevent binary C-extension conflicts between 
 ```bash
 pip install --upgrade pip
 pip install streamlit plotly pandas "numpy<2.0.0" statsmodels requests geopy
+```
 
 ### 3. Launch the Application
 
@@ -80,6 +83,7 @@ streamlit run app.py
 The application will launch automatically in your browser at `http://localhost:8501`.
 
 ---
+```
 
 ## 📖 Dashboard User Guide & Interpretive Framework
 
@@ -200,6 +204,7 @@ The spatial feature pipeline generates geocodes and distance measurements using 
                                 +---------------------------+
                                 |  Streamlit Analytics App  |
                                 +---------------------------+
+```
 
 1. **Parallel Geocoding Engine (`src/geocode_hdb.py`):** Uses Python's `ThreadPoolExecutor` to query OneMap's REST API across unique physical block addresses, with Nominatim API as a fallback.
 2. **Automated Coordinates Repair (`src/repair_coordinates.py`):** Retries missing address records to ensure complete coverage.
