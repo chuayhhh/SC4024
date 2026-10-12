@@ -107,8 +107,8 @@ The dashboard is structured into **5 Analytical Tabs**, accompanied by a **Sideb
 * **Objective:** Map spatial valuation trends across the island.
 * **Visual Encoding:**
   * **Latitude / Longitude:** Flat physical location.
-  * **Color Scale (Viridis):** Price per Square Meter (SGD $/sqm). Dark purple indicates affordable suburban flats (~$3,000/sqm); 
-  Bright yellow highlights high-value central flats (~$10,000+/sqm).
+  * **Color Scale (Viridis):** Price per Square Meter (SGD $/sqm). Dark purple indicates affordable suburban flats (\~$3,000/sqm); bright yellow highlights high-value central flats (\~$10,000+/sqm).
+
   * **Bubble Size:** Floor area in square meters.
 * **How to Read & Interact:**
   * Zoom and pan across specific neighborhoods (e.g., Central Area vs. Woodlands).
