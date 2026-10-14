@@ -1,4 +1,4 @@
-# 🏢 SC4024 Data Visualization & Visual Analytics Project
+# 🏢 SC4024 Data Visualization Project
 
 ## What Makes an HDB Flat Expensive?
 
