@@ -4,18 +4,20 @@
 
 **Exploring Property Characteristics, Location, Accessibility and Neighbourhood Amenities in Singapore**
 
-- **Course:** NTU SC4024 Data Visualization & Visual Analytics
-- **Webpage:** HDB Singapore
-- **Coverage:** January 2017–October 2026 in the supplied transaction dataset; 2026 is incomplete.
-- **Technology:** HTML, CSS, vanilla JavaScript, SVG and Canvas; Python 3 standard-library preparation scripts; OneMap Search for approved address geocoding.
+- **NTU SC4024 Data Visualization & Visual Analytics** 
+- **Output:** Self-created HDB Singapore Webpage
+- **Coverage:** January 2017–October 2026 in the provided dataset; 2026 data is incomplete.
+- **Tools/ Methods Implemented:** HTML, CSS, vanilla JavaScript, SVG and Canvas; Python 3 standard-library preparation scripts; OneMap Search for approved address geocoding.
 
 ## Executive Overview & Core Problem Statement
 
 Singapore HDB resale prices vary across property characteristics, location and neighbourhood accessibility. This interactive storytelling webpage explores how remaining lease, floor area, building age, storey, flat type, town and nearby amenities are associated with those differences.
 
-Six connected chapters guide viewers from market-wide trends to property-level trade-offs and neighbourhood comparisons. Coordinated filters, animated charts, map exploration and presentation controls support a university project and a six-minute presentation.
+Six connected graphs guide viewers from market-wide trends to property-level trade-offs and neighbourhood comparisons. Coordinated filters, animated charts, map exploration.
 
-The analysis uses the six supplied datasets. OneMap enriches uploaded addresses with coordinates only. Associations are descriptive: the webpage does not estimate causal amenity premiums, predict future prices or model depreciation, mortgage costs or interest rates.
+The analysis uses the six supplied datasets, while OneMap enriches uploaded addresses with coordinates only. 
+
+Associations are descriptive as the webpage does not estimate causal amenity premiums, predict future prices or model depreciation, mortgage costs or interest rates.
 
 ## Repository Architecture
 
@@ -42,7 +44,7 @@ practice/
     └── onemap-cache.json         # Preserve this to avoid repeating geocoding
 ```
 
-The public branch contains code and documentation. Source datasets, generated JSON and geocoding caches are excluded from Git. Run commands from the repository root, `practice`.
+The public branch contains code and documentation. Source datasets, generated JSON and geocoding caches are excluded from Git. Run commands from the repository root.
 
 ## Quickstart & Local Setup Guide
 
@@ -51,7 +53,7 @@ The public branch contains code and documentation. Source datasets, generated JS
 Open PowerShell in the parent folder where you want the project, then run:
 
 ```powershell
-git clone --branch <branchname> --single-branch <repository git address>
+git clone --branch BRANCH NAME --single-branch REPOSITORY GIT ADDRESS
 cd practice
 py --version
 ```
@@ -59,7 +61,7 @@ py --version
 If you already have the repository, open PowerShell inside your existing folder instead:
 
 ```powershell
-git switch <branchname>
+git switch BRANCHNAME
 git pull --ff-only
 ```
 
@@ -71,7 +73,7 @@ Create a `datasets` folder if needed:
 New-Item -ItemType Directory -Path datasets -Force
 ```
 
-Place these supplied files inside it:
+Place these dataset files inside the folder:
 
 | File | Purpose |
 | --- | --- |
@@ -81,8 +83,6 @@ Place these supplied files inside it:
 | `LTAMRTStationExitGEOJSON.geojson` | MRT exit locations |
 | `HawkerCentresGEOJSON.geojson` | Hawker locations and status |
 | `MasterPlan2025PlanningAreaBoundaryNoSea.geojson` | Planning-area boundaries |
-
-The assignment PDF and Word documents are project references, not analytical datasets.
 
 ### 3. Prepare the webpage data
 
@@ -94,7 +94,11 @@ py scripts\geocode_onemap.py --workers 4
 py scripts\build_accessibility.py
 ```
 
-The preparation scripts use Python's standard library; no Streamlit, Plotly, Pandas or npm installation is required. Geocoding needs internet access and can take considerable time because it queries thousands of addresses. It saves progress in `work/onemap-cache.json`; rerunning resumes from saved results. Ambiguous matches are excluded rather than guessed.
+The preparation scripts use Python's standard library; no Streamlit, Plotly, Pandas or npm installation is required. Geocoding needs internet access and can take considerable time because it queries thousands of addresses. 
+
+**IT CAN TAKES UP TO 1.5+ HOUR TO DOWNLOAD FOR GEOCODING!!** So please allocate your time while setting up. :)
+
+It saves progress in `work/onemap-cache.json`; rerunning resumes from saved results. Ambiguous matches are excluded rather than guessed.
 
 If OneMap requires authentication, the script accepts an optional `ONEMAP_TOKEN` environment variable. Keep tokens out of source control.
 
@@ -248,4 +252,5 @@ These links document the uploaded datasets' provenance; no replacement datasets 
 - [OneMap](https://www.onemap.gov.sg/) for address-coordinate lookup only
 
 
-Developed for SC4024 Data Visualization course at Nanyang Technological University, Singapore. Dataset redistribution is subject to the respective providers' terms. This README does not grant a separate software or dataset licence.
+For SC4024 Data Visualization course at Nanyang Technological University, Singapore. 
+Dataset redistribution is subject to the data.gov.sg terms. This README does not grant a separate software or dataset licence.
