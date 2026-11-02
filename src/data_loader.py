@@ -23,36 +23,53 @@ def parse_remaining_lease(lease_str):
     except (IndexError, ValueError):
         return np.nan
 
-def load_and_clean_hdb_data(file_path):
-    print(f"Loading base dataset from {file_path}...")
+def load_and_clean_hdb_data(file_path="data/resale_flat_prices_edited.csv"):
+    print(f"Loading merged dataset from {file_path}...")
     df = pd.read_csv(file_path)
     
     # Standardize column headers
     df.columns = df.columns.str.strip().str.lower().str.replace(' ', '_')
     df = df.drop_duplicates()
     
-    # Engineer base metrics
-    df['remaining_lease_years'] = df['remaining_lease'].apply(parse_remaining_lease)
+    # -------------------------------------------------------------
+    # SAFE CHECK FOR REMAINING LEASE
+    # -------------------------------------------------------------
+    if 'remaining_lease_years' not in df.columns:
+        if 'remaining_lease' in df.columns:
+            df['remaining_lease_years'] = df['remaining_lease'].apply(parse_remaining_lease)
+        else:
+            df['remaining_lease_years'] = np.nan
+    else:
+        # Ensure remaining_lease_years is numeric float
+        df['remaining_lease_years'] = pd.to_numeric(df['remaining_lease_years'], errors='coerce')
+    
+    # Engineer derived metrics
     df['transaction_date'] = pd.to_datetime(df['month'], format='%Y-%m')
     df['transaction_year'] = df['transaction_date'].dt.year
     df['price_per_sqm'] = df['resale_price'] / df['floor_area_sqm']
     df['depreciation_per_year'] = df['resale_price'] / df['remaining_lease_years']
     
-    # Create matching address key
-    df['address'] = df['block'].astype(str) + " " + df['street_name'].astype(str)
+    # Map Weng Shi's column names to app.py expectations
+    column_mapping = {
+        'distance_to_mrt_km': 'min_mrt_dist_km',
+        'nearest_mrt_station': 'nearest_mrt',
+        'distance_to_cbd_km': 'cbd_dist_km',
+        'full_address': 'address' 
+    }
+    df = df.rename(columns=column_mapping)
     
-    # Merge spatial dataset if available
+    # Merge spatial feature file if using old dataset
     spatial_path = pathlib.Path(file_path).parent / "hdb_spatial_features.csv"
-    if spatial_path.exists():
+    if 'min_mrt_dist_km' not in df.columns and spatial_path.exists():
         print("Merging spatial features (lat/lon, MRT, CBD distances)...")
         df_spatial = pd.read_csv(spatial_path)
+        if 'address' not in df.columns:
+            df['address'] = df['block'].astype(str) + " " + df['street_name'].astype(str)
         df = df.merge(df_spatial, on='address', how='left')
-    else:
-        print("⚠️ Spatial feature file not found. Proceeding without geospatial columns.")
-        
+
     print(f"✅ Data processing complete! Total records: {len(df):,}")
     return df
 
 if __name__ == "__main__":
-    df_test = load_and_clean_hdb_data("data/resale_flat_prices.csv")
-    print(df_test[['town', 'address', 'nearest_mrt', 'min_mrt_dist_km', 'cbd_dist_km']].head())
+    df_test = load_and_clean_hdb_data("data/resale_flat_prices_edited.csv")
+    print(df_test[['town', 'full_address', 'nearest_mrt', 'min_mrt_dist_km', 'cbd_dist_km']].head())
