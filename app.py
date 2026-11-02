@@ -69,7 +69,7 @@ if not matched.empty:
     st.sidebar.metric(
         f"Projected Val ({sim_years} yrs)", 
         f"SGD ${proj_val:,.0f}", 
-        delta=f"-${est_loss:,.0f} holding decay"
+        delta=f"-SGD ${est_loss:,.0f} holding decay"
     )
 
 # --- Main Header ---
@@ -107,7 +107,7 @@ else:
     # --- TAB 1: GEOSPATIAL MAP ---
     with tab1:
         st.subheader("Interactive Singapore Spatial Price Distribution")
-        st.caption("👇 **Click on any point on the map** to reveal specific flat details below.")
+        st.caption("👇 Click on any point on the map to reveal specific flat details below.")
         
         fig_map = create_hdb_map(filtered_df)
         map_selection = st.plotly_chart(
@@ -131,11 +131,11 @@ else:
             sch_avg = filtered_df['nearest_distance_to_school_m'].mean() if 'nearest_distance_to_school_m' in filtered_df.columns else 0
             
             st.info(
-                f"💡 **Spatial Overview Insights:**\n\n"
-                f"* **Highest Valued Region:** **{top_town}** commands the highest median valuation at **SGD ${top_val:,.0f}/sqm**.\n"
-                f"* **Most Accessible Region:** **{low_town}** provides the entry-level baseline at **SGD ${low_val:,.0f}/sqm**.\n"
-                f"* **Valuation Spread:** A **SGD ${(top_val - low_val):,.0f}/sqm regional gap** exists within your active selection.\n"
-                f"* **Spatial Proximity Profile:** Selected flats average **{cbd_avg:.1f} km from the CBD**, **{mrt_avg:.2f} km from the nearest MRT**, and **{sch_avg:.0f} m from a primary/secondary school**."
+                f"💡 Spatial Overview Insights:\n\n"
+                f"🏆 Highest Valued Region: {top_town} commands the highest median valuation at SGD ${top_val:,.0f} / sqm.\n\n"
+                f"🏠 Baseline Region: {low_town} provides the entry-level baseline at SGD ${low_val:,.0f} / sqm.\n\n"
+                f"📊 Valuation Spread: A regional gap of SGD ${(top_val - low_val):,.0f} / sqm exists within your active selection.\n\n"
+                f"📍 Spatial Proximity Profile: Selected flats average {cbd_avg:.1f} km from the CBD, {mrt_avg:.2f} km from the nearest MRT, and {sch_avg:.0f} m from a school."
             )
 
         # Tab 1 Click Detail Panel
@@ -153,19 +153,19 @@ else:
                 row = clicked_flat.iloc[0]
                 addr_name = row.get('full_address', row.get('address', f"Block {row['block']} {row['street_name']}"))
                 st.success(
-                    f"🔍 **Selected Flat Detailed Breakdown:**\n\n"
-                    f"* **Location:** **{addr_name}** ({row['town']})\n"
-                    f"* **Resale Price:** **SGD ${row['resale_price']:,.0f}** (**SGD ${row['price_per_sqm']:,.0f}/sqm**)\n"
-                    f"* **Flat Spec:** {row['flat_type']} | {row['floor_area_sqm']} sqm | {row['remaining_lease_years']} years lease remaining\n"
-                    f"* **Transit Access:** Nearest MRT is **{row.get('nearest_mrt', 'N/A')}** ({row.get('min_mrt_dist_km', 0):.2f} km away | Exit: {row.get('nearest_mrt_exit', 'N/A')})\n"
-                    f"* **School Proximity:** Nearest School is **{row.get('nearest_school', 'N/A')}** ({row.get('nearest_distance_to_school_m', 0):.0f} m away)\n"
-                    f"* **CBD Distance:** {row.get('cbd_dist_km', 0):.2f} km to Downtown Central Business District"
+                    f"🔍 Selected Flat Detailed Breakdown:\n\n"
+                    f"📍 Location: {addr_name} ({row['town']})\n\n"
+                    f"💰 Resale Price: SGD ${row['resale_price']:,.0f}  |  Unit Rate: SGD ${row['price_per_sqm']:,.0f} / sqm\n\n"
+                    f"📐 Flat Specifications: {row['flat_type']}  |  {row['floor_area_sqm']} sqm  |  {row['remaining_lease_years']} years lease remaining\n\n"
+                    f"🚆 Transit Access: {row.get('nearest_mrt', 'N/A')} ({row.get('min_mrt_dist_km', 0):.2f} km away  |  Exit: {row.get('nearest_mrt_exit', 'N/A')})\n\n"
+                    f"🏫 School Proximity: {row.get('nearest_school', 'N/A')} ({row.get('nearest_distance_to_school_m', 0):.0f} meters away)\n\n"
+                    f"🏙️ CBD Distance: {row.get('cbd_dist_km', 0):.2f} km to Central Business District"
                 )
 
     # --- TAB 2: MRT & SCHOOL LOCATION PROXIMITY ---
     with tab2:
         st.subheader("Transit & School Distance Decay Analysis")
-        st.caption("👇 **Click on any scatter point** to inspect location details below.")
+        st.caption("👇 Click on any scatter point to inspect location details below.")
         
         col_left, col_right = st.columns(2)
         
@@ -205,53 +205,63 @@ else:
         mrt_insight_str = ""
         if not near_mrt.empty and not far_mrt.empty:
             mrt_premium = ((near_mrt['price_per_sqm'].median() - far_mrt['price_per_sqm'].median()) / far_mrt['price_per_sqm'].median()) * 100
-            mrt_insight_str = f"* **MRT Transit Premium:** Flats within **500m of an MRT** command a **{mrt_premium:+.1f}% price premium/sqm** over flats >1km away.\n"
+            mrt_insight_str = f"🚆 MRT Transit Premium: Flats within 500m of an MRT command a {mrt_premium:+.1f}% price premium per sqm over flats >1km away.\n\n"
 
         sch_insight_str = ""
         if not near_sch.empty and not far_sch.empty:
             sch_premium = ((near_sch['price_per_sqm'].median() - far_sch['price_per_sqm'].median()) / far_sch['price_per_sqm'].median()) * 100
-            sch_insight_str = f"* **School Zone Premium:** Flats within **500m of a primary/secondary school** command a **{sch_premium:+.1f}% price premium/sqm** over flats >1km away.\n"
+            sch_insight_str = f"🏫 School Zone Premium: Flats within 500m of a school command a {sch_premium:+.1f}% price premium per sqm over flats >1km away.\n\n"
 
         st.info(
-            f"💡 **Spatial Proximity Insights:**\n\n"
+            f"💡 Spatial Proximity Insights:\n\n"
             f"{mrt_insight_str}"
             f"{sch_insight_str}"
-            f"* **Location Premium Synergy:** Flats positioned within both a 500m MRT zone and a 1km school priority radius experience the lowest lease-adjusted valuation decay."
+            f"📍 Location Premium Synergy: Flats positioned within both a 500m MRT zone and a 1km school priority radius experience the lowest lease-adjusted valuation decay."
         )
 
-        # Tab 2 Click Detail Panel
-        active_click = None
-        if mrt_click and "points" in mrt_click["selection"] and len(mrt_click["selection"]["points"]) > 0:
-            active_click = mrt_click["selection"]["points"][0]
-        elif school_click and "points" in school_click["selection"] and len(school_click["selection"]["points"]) > 0:
-            active_click = school_click["selection"]["points"][0]
+        # Tab 2 Fixed Click Detail Panel
+        mrt_pts = mrt_click["selection"]["points"] if (mrt_click and "selection" in mrt_click and "points" in mrt_click["selection"]) else []
+        sch_pts = school_click["selection"]["points"] if (school_click and "selection" in school_click and "points" in school_click["selection"]) else []
 
-        if active_click:
-            dist_val = active_click.get("x")
-            price_val = active_click.get("y")
+        clicked_flat = pd.DataFrame()
+
+        if len(mrt_pts) > 0:
+            pt = mrt_pts[0]
+            mrt_x = pt.get("x")
+            price_y = pt.get("y")
             
             clicked_flat = filtered_df[
-                (np.isclose(filtered_df['price_per_sqm'], price_val, atol=1.0))
+                (np.isclose(filtered_df['min_mrt_dist_km'], mrt_x, atol=0.01)) & 
+                (np.isclose(filtered_df['price_per_sqm'], price_y, atol=2.0))
             ]
+
+        elif len(sch_pts) > 0:
+            pt = sch_pts[0]
+            sch_x = pt.get("x")
+            price_y = pt.get("y")
             
-            if not clicked_flat.empty:
-                row = clicked_flat.iloc[0]
-                addr_name = row.get('full_address', row.get('address', f"Block {row['block']} {row['street_name']}"))
-                st.success(
-                    f"🎯 **Clicked Scatter Point Detailed Breakdown:**\n\n"
-                    f"* **Selected Flat:** **{addr_name}** ({row['town']})\n"
-                    f"* **Resale Price:** **SGD ${row['resale_price']:,.0f}** (**SGD ${row['price_per_sqm']:,.0f}/sqm**)\n"
-                    f"* **Transit Distance:** **{row.get('min_mrt_dist_km', 0):.2f} km** to **{row.get('nearest_mrt', 'MRT')}** ({'Walkable <500m' if row.get('min_mrt_dist_km', 0) <= 0.5 else 'Distant >500m'})\n"
-                    f"* **School Distance:** **{row.get('nearest_distance_to_school_m', 0):.0f} m** to **{row.get('nearest_school', 'School')}**\n"
-                    f"* **Remaining Lease:** {row['remaining_lease_years']} years lease remaining"
-                )
+            clicked_flat = filtered_df[
+                (np.isclose(filtered_df['nearest_distance_to_school_m'], sch_x, atol=5.0)) & 
+                (np.isclose(filtered_df['price_per_sqm'], price_y, atol=2.0))
+            ]
+
+        if not clicked_flat.empty:
+            row = clicked_flat.iloc[0]
+            addr_name = row.get('full_address', row.get('address', f"Block {row['block']} {row['street_name']}"))
+            st.success(
+                f"🎯 Clicked Property Detailed Breakdown:\n\n"
+                f"📍 Address & Town: {addr_name} ({row['town']})\n\n"
+                f"💰 Resale Price: SGD ${row['resale_price']:,.0f}  |  Unit Rate: SGD ${row['price_per_sqm']:,.0f} / sqm\n\n"
+                f"🚆 Transit Proximity: {row.get('nearest_mrt', 'MRT')} ({row.get('min_mrt_dist_km', 0):.2f} km away  |  Exit: {row.get('nearest_mrt_exit', 'N/A')})\n\n"
+                f"🏫 School Proximity: {row.get('nearest_school', 'School')} ({row.get('nearest_distance_to_school_m', 0):.0f} meters away)\n\n"
+                f"📐 Flat Specifications: {row['flat_type']}  |  {row['floor_area_sqm']} sqm  |  {row['remaining_lease_years']} years lease remaining"
+            )
 
     # --- TAB 3: PARALLEL COORDINATES BRUSHING ---
     with tab3:
         st.subheader("High-Dimensional Multi-Variable Brushing")
         st.markdown(
-            "**Interactive Brushing Instructions:** Click and drag vertically along any vertical axis line to isolate specific property profiles "
-            "(e.g., drag along *School Dist (m)* or *CBD Dist (km)* to enforce location constraints, or *Price ($)* to limit budget)."
+            "Interactive Brushing Instructions: Click and drag vertically along any vertical axis line to isolate specific property profiles."
         )
         
         fig_pcoords = create_parallel_coordinates(filtered_df)
@@ -264,23 +274,23 @@ else:
         med_sch = filtered_df['nearest_distance_to_school_m'].median() if 'nearest_distance_to_school_m' in filtered_df.columns else 0
         
         st.info(
-            f"💡 **High-Dimensional Trade-off Summary:**\n\n"
-            f"* **Filtered Subset Profile:** Median Price of **SGD ${med_price:,.0f}** | Median Lease of **{med_lease:.0f} years** | Median Size of **{med_area:.0f} sqm** | Median CBD Distance of **{med_cbd:.1f} km** | Median School Distance of **{med_sch:.0f} m**.\n"
-            f"* **Key Multi-Attribute Trade-off:** Isolating low resale prices highlights that buyers must trade off remaining lease length or accept greater distances from the CBD and MRT network."
+            f"💡 High-Dimensional Trade-off Summary:\n\n"
+            f"📊 Active Filtered Profile: Median Price of SGD ${med_price:,.0f}  |  Median Lease of {med_lease:.0f} years  |  Median Size of {med_area:.0f} sqm  |  Median CBD Dist of {med_cbd:.1f} km  |  Median School Dist of {med_sch:.0f} m.\n\n"
+            f"🔀 Key Trade-off Insight: Lower resale price points require buyers to trade off remaining lease length or accept increased transit and CBD distances."
         )
 
         st.success(
-            f"🔀 **Active Selection Axis Breakdown ({len(filtered_df):,} Matching Flats):**\n\n"
-            f"* **Price Spectrum:** SGD ${filtered_df['resale_price'].min():,.0f} to SGD ${filtered_df['resale_price'].max():,.0f}\n"
-            f"* **Remaining Lease Spectrum:** {filtered_df['remaining_lease_years'].min():.1f} yrs to {filtered_df['remaining_lease_years'].max():.1f} yrs\n"
-            f"* **School Proximity Range:** {filtered_df['nearest_distance_to_school_m'].min():.0f} m to {filtered_df['nearest_distance_to_school_m'].max():.0f} m\n"
-            f"* **CBD Distance Range:** {filtered_df['cbd_dist_km'].min():.1f} km to {filtered_df['cbd_dist_km'].max():.1f} km"
+            f"🔀 Active Selection Axis Spectrum ({len(filtered_df):,} Matching Flats):\n\n"
+            f"💰 Price Spectrum: SGD ${filtered_df['resale_price'].min():,.0f} to SGD ${filtered_df['resale_price'].max():,.0f}\n\n"
+            f"⏳ Remaining Lease Spectrum: {filtered_df['remaining_lease_years'].min():.1f} yrs to {filtered_df['remaining_lease_years'].max():.1f} yrs\n\n"
+            f"🏫 School Proximity Range: {filtered_df['nearest_distance_to_school_m'].min():.0f} m to {filtered_df['nearest_distance_to_school_m'].max():.0f} m\n\n"
+            f"🏙️ CBD Distance Range: {filtered_df['cbd_dist_km'].min():.1f} km to {filtered_df['cbd_dist_km'].max():.1f} km"
         )
 
     # --- TAB 4: TOWN DEPRECIATION SPREAD ---
     with tab4:
         st.subheader("Leasehold Depreciation Risk & Town-Level Holding Costs")
-        st.caption("👇 **Click on any town boxplot** to view specific town statistics below.")
+        st.caption("👇 Click on any town boxplot to view specific town statistics below.")
         
         fig_box = create_town_depreciation_boxplot(filtered_df)
         box_click = st.plotly_chart(
@@ -295,10 +305,10 @@ else:
         
         if len(town_depr) > 1:
             st.info(
-                f"💡 **Depreciation Risk Insights:**\n\n"
-                f"* **Highest Annual Cost Town:** **{town_depr.index[0]}** at **SGD ${town_depr.iloc[0]:,.0f}/year**.\n"
-                f"* **Lowest Annual Cost Town:** **{town_depr.index[-1]}** at **SGD ${town_depr.iloc[-1]:,.0f}/year**.\n"
-                f"* **Baseline Reference:** The dashed horizontal line indicates the median annual holding cost across all selected towns."
+                f"💡 Depreciation Risk Insights:\n\n"
+                f"📈 Highest Annual Cost Town: {town_depr.index[0]} at SGD ${town_depr.iloc[0]:,.0f} / year.\n\n"
+                f"📉 Lowest Annual Cost Town: {town_depr.index[-1]} at SGD ${town_depr.iloc[-1]:,.0f} / year.\n\n"
+                f"📌 Baseline Reference: The dashed horizontal line indicates the median annual holding cost across all selected towns."
             )
 
         # Tab 4 Click Detail Panel
@@ -315,17 +325,17 @@ else:
                 med_mrt = town_data['min_mrt_dist_km'].median() if 'min_mrt_dist_km' in town_data.columns else 0
                 
                 st.success(
-                    f"📊 **Selected Town Deep-Dive ({clicked_town}):**\n\n"
-                    f"* **Total Transactions in Subset:** **{len(town_data):,} flats**\n"
-                    f"* **Median Annual Holding Depreciation:** **SGD ${med_depr:,.0f}/year**\n"
-                    f"* **Median Resale Price:** **SGD ${med_p:,.0f}** | **Median Remaining Lease:** **{med_l:.1f} years**\n"
-                    f"* **Town Spatial Profile:** Avg **{med_mrt:.2f} km to MRT** | Avg **{med_sch:.0f} m to School**"
+                    f"📊 Selected Town Deep-Dive ({clicked_town}):\n\n"
+                    f"🏠 Total Transactions in Subset: {len(town_data):,} HDB flats\n\n"
+                    f"💸 Median Annual Holding Depreciation: SGD ${med_depr:,.0f} / year\n\n"
+                    f"💰 Median Resale Price: SGD ${med_p:,.0f}  |  Median Lease: {med_l:.1f} years remaining\n\n"
+                    f"📍 Town Proximity Profile: Avg {med_mrt:.2f} km to MRT  |  Avg {med_sch:.0f} m to School"
                 )
 
     # --- TAB 5: MACRO BENCHMARK ---
     with tab5:
         st.subheader("Macroeconomic Benchmark: Resale Trajectory vs. 3-Month SORA Rates")
-        st.caption("👇 **Click on any point on the trend line** to inspect historical market data below.")
+        st.caption("👇 Click on any point on the trend line to inspect historical market data below.")
         
         fig_macro = create_macro_benchmark_chart(filtered_df)
         macro_click = st.plotly_chart(
@@ -342,9 +352,9 @@ else:
         growth = ((last_p - first_p) / first_p) * 100
         
         st.info(
-            f"💡 **Macro Economic Insights:**\n\n"
-            f"* **Market Trajectory:** Price per sqm shifted from **SGD ${first_p:,.0f}** to **SGD ${last_p:,.0f}** (**{growth:+.1f}% growth**).\n"
-            f"* **Interest Rate Benchmark:** Compare price shifts during low SORA rate environments (2020–2021) versus recent rate adjustment cycles."
+            f"💡 Macro Economic Insights:\n\n"
+            f"📈 Market Trajectory: Price per sqm shifted from SGD ${first_p:,.0f} to SGD ${last_p:,.0f} ({growth:+.1f}% overall change).\n\n"
+            f"🏦 Interest Rate Impact: Compare price movement during low SORA rate environments vs recent mortgage rate adjustment cycles."
         )
 
         # Tab 5 Click Detail Panel
@@ -357,9 +367,9 @@ else:
             med_m_p = m_data['resale_price'].median() if not m_data.empty else 0
             
             st.success(
-                f"📈 **Selected Transaction Timeframe Breakdown ({selected_date}):**\n\n"
-                f"* **Transaction Month:** **{selected_date}**\n"
-                f"* **Monthly Transaction Volume:** **{vol} HDB flats sold**\n"
-                f"* **Recorded Median Resale Price:** **SGD ${med_m_p:,.0f}** (**SGD ${point.get('y', 0):,.0f}/sqm**)\n"
-                f"* **Macro Monetary Environment:** This period reflects market demand during the benchmark mortgage interest rate environment of that quarter."
+                f"📈 Selected Transaction Timeframe Breakdown ({selected_date}):\n\n"
+                f"📅 Transaction Month: {selected_date}\n\n"
+                f"📊 Monthly Sales Volume: {vol} HDB flats sold\n\n"
+                f"💰 Recorded Median Resale Price: SGD ${med_m_p:,.0f}  (SGD ${point.get('y', 0):,.0f} / sqm)\n\n"
+                f"🏦 Macro Environment: Reflects market demand during the benchmark mortgage interest rate of that quarter."
             )
