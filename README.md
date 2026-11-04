@@ -19,29 +19,6 @@ This interactive Visual Analytics application equips stakeholders with high-dime
 
 ---
 
-## 🛠️ Repository Architecture
-
-```text
-SC4024/
-├── app.py                          # Main Streamlit Application Orchestrator
-├── README.md                       # Comprehensive Project & Dashboard Guide
-├── sc4024_project_report.pdf       # System Architecture & Analytical Report
-├── data/                           # Data Storage Layer
-│   ├── resale_flat_prices.csv      # Primary Raw Ingestion Dataset (HDB Resale Transactions)
-│   ├── hdb_coordinates.csv         # Geocoded Lat/Lon Registry (OneMap/Nominatim)
-│   └── hdb_spatial_features.csv    # Computed Spatial Features (MRT/CBD Haversine Distances)
-└── src/                            # Modular Analytics & Engine Codebase
-    ├── __init__.py                 # Module Initializer
-    ├── data_loader.py              # Data Pipeline (Ingestion, Cleaning, Spatial Left-Joins)
-    ├── geocode_hdb.py              # Parallel Multi-Threaded OneMap/Nominatim Geocoding Engine
-    ├── repair_coordinates.py       # Automated Address Repair & Retry Engine
-    ├── mrt_distance.py             # Vectorized Spatial Haversine Distance Engine (MRT/LRT)
-    ├── school_cbd_distance.py      # Spatial Proximity Engine (CBD & Key Regional Hubs)
-    └── visual_components.py        # Standardized Dark-Theme Plotly Visual Components
-└── archive_notebooks/              # Old Project Reference
-    └── old_project.ipynb           # Old project .ipynb file
-```
-
 ## ⚡ Quickstart & Local Installation Guide
 
 Follow these steps to set up a clean, isolated environment and launch the local dashboard server.
@@ -81,6 +58,7 @@ pip install streamlit plotly pandas "numpy<2.0.0" statsmodels requests geopy
 streamlit run app.py
 
 The application will launch automatically in your browser at `http://localhost:8501`.
+
 ```
 
 ---
@@ -222,19 +200,6 @@ The spatial feature pipeline generates geocodes and distance measurements using 
 ```bash
   pip install "numpy<2.0.0" --force-reinstall
 ```
-
----
-
-## 🎓 Academic Rubric Alignment (NTU SC4024)
-
-| Grading Criteria | Applied Implementation |
-| :--- | :--- |
-| **Visual Appropriateness & Design Variety** | Integrates Scatter Maps, OLS Regression Scatters, Parallel Coordinates, Sorted Boxplots, and Dual-Axis Line Subplots formatted in dark theme (`plotly_dark`). |
-| **High-Dimensional Brushing** | Implements interactive multi-axis brushing on Tab 3 (Parallel Coordinates), allowing cross-variable trade-off isolation. |
-| **Spatial Feature Enrichment** | Enriches flat transactions with OneMap lat/lon geocodes, Haversine MRT proximity, and CBD distance calculations. |
-| **Filter-Sensitive Storytelling** | Contextual `st.info()` blocks recalculate localized metrics dynamically based on user sidebar filters. |
-| **Code Modularity & Cleanliness** | Enforces separation of concerns (`app.py` for UI layout, `src/data_loader.py` for data transformation, `src/visual_components.py` for chart rendering). |
-
 ---
 
 ## 📄 License & Course Attribution
