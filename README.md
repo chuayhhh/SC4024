@@ -9,11 +9,11 @@
 
 ## 📌 Executive Overview & Core Problem Statement
 
-Singapore’s public housing market, managed by the Housing & Development Board (HDB), presents a complex high-dimensional decision matrix for buyers, urban planners, and policy analysts. Public flat valuations are governed by competing structural and spatial forces:
+Singapore’s public housing market, managed by the Housing & Development Board (HDB), presents a complex high-dimensional decision matrix for buyers, urban planners, and policy analysts. Analyzing a comprehensive dataset of 242,121 HDB resale transaction records (2017 to Present), this project demonstrates that public flat valuations are governed by competing structural, spatial, and macroeconomic forces:
 
-1. **Spatial Convenience vs. Distance Decay:** Proximity to Mass Rapid Transit (MRT) stations and the Central Business District (CBD) commands a steep valuation premium.
+1. **Spatial Convenience vs. Distance Decay:** Proximity to Mass Rapid Transit (MRT) stations, the Central Business District (CBD), and primary/secondary school priority zones commands steep valuation premiums.
 2. **Leasehold Depreciation (99-Year Lease Decay):** As public flats age, Bala’s Curve dictates non-linear lease decay, which competes against capital appreciation.
-3. **Macroeconomic Monetary Pressures:** Rising benchmark mortgage rates (such as the 3-Month SORA) alter housing demand and affordability.
+3. **Macroeconomic Monetary Pressures:** Shifting benchmark mortgage rates (such as the 3-Month Compounded SORA) alter housing demand, purchasing power, and town-level price trajectories.
 
 This interactive Visual Analytics application equips stakeholders with high-dimensional brushing, spatial exploration tools, and real-time trade-off modeling to analyze how these factors interact across Singapore's 26 HDB towns.
 
@@ -57,7 +57,7 @@ pip install streamlit plotly pandas "numpy<2.0.0" statsmodels requests geopy
 ```bash
 streamlit run app.py
 
-The application will launch automatically in your browser at `http://localhost:8501`.
+The application will launch automatically in your browser.
 
 ```
 
